@@ -1,0 +1,126 @@
+/* dashboard.css */
+.dashboard-container {
+    width: 250px; /* Adjust width as needed */
+  background-color: #333; /* Sidebar background color */
+  color: #fff; /* Sidebar text color */
+  height: 100vh; /* Set sidebar height to viewport height */
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.side-panel {
+    width: 200px;
+    background-color: #f0f0f0;
+    padding: 20px;
+    height: 100%;
+    text-decoration: none;
+   
+    
+}
+
+.side-panel-item {
+    margin-bottom: 10px;
+    text-decoration: none;
+    padding: 10px;
+  border-bottom: 1px solid #555; /* Separator line between items */
+  cursor: pointer;
+}
+.side-panel-item a{
+    text-decoration: none;
+    color: black;
+}
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+/* styles/SidePanel.css */
+.side-panel-item {
+    margin-bottom: 10px;
+    text-decoration: none;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+  }
+  
+  .tab a {
+    text-decoration: none;
+    color: black;
+    margin-right: 10px;
+  }
+  
+  .dropdown {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .arrow {
+    margin-left: 5px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: rgb(8, 8, 8);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #bdb0b0;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+
+
+
+  .blog-container {
+    padding: 20px;
+}
+
+.blog-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.blogs {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.blog {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.blog-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.blog-content {
+    margin-bottom: 15px;
+}
+
+.blog-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
