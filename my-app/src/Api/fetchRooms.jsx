@@ -13,7 +13,6 @@ const fetchRooms = async() => {
     }
     catch(err){
         console.log(err);
-        return null;
     }
 }
 

@@ -109,78 +109,59 @@ const cardImages = {
   "red_back" : red_back
 };
 
-export default function Room() {
-  const cards = [
-    "2C", "6S", "AD", "2D", "7D", "AS", "2S", "7H",
-    "3C", "7S", "JC", "3D", "8C", "JD", "3H", "8D",
-    "JH", "3S", "8H", "JS", "4C", "8S", "KC", "4D",
-    "9C", "KD", "4H", "9D", "KH", "4S", "9H", "KS",
-    "5C", "9S", "10C", "5D", "10D", "QD", "5H", "10D",
-    "QH", "5S", "10H", "QS", "6C", "10S", "6D", "AC",
-    "6H", "aces" , "2H", "red_back", "blue_back"
-  ];
-  const dispatch = useDispatch();
-  const room = useSelector(state => state.room);
-  const [shuffledList, setShuffledList] = useState(cards);
-  const shuffleList = () => {
-    const listCopy = [...cards];
-    for (let i = listCopy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [listCopy[i], listCopy[j]] = [listCopy[j], listCopy[i]];
-    }
-    setShuffledList(listCopy);
-  };
+export default function shuffleCards() {
+  try{
 
-  useEffect(() => {
-    shuffleList();
-  }, []);
+    const cards = [
+        "2C", "6S", "AD", "2D", "7D", "AS", "2S", "7H",
+        "3C", "7S", "JC", "3D", "8C", "JD", "3H", "8D",
+        "JH", "3S", "8H", "JS", "4C", "8S", "KC", "4D",
+        "9C", "KD", "4H", "9D", "KH", "4S", "9H", "KS",
+        "5C", "9S", "10C", "5D", "10D", "QD", "5H", "10D",
+        "QH", "5S", "10H", "QS", "6C", "10S", "6D", "AC",
+        "6H", "aces" , "2H", "red_back", "blue_back"
+      ];
+      const dispatch = useDispatch();
+      const room = useSelector(state => state.room);
+      const [shuffledList, setShuffledList] = useState(cards);
+      const shuffleList = () => {
+        const listCopy = [...cards];
+        for (let i = listCopy.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [listCopy[i], listCopy[j]] = [listCopy[j], listCopy[i]];
+        }
+        setShuffledList(listCopy);
+      };
+    
+      useEffect(() => {
+        shuffleList();
+      }, []);
+    
+      const distributeCards = () => {
+        const numUsers = room.users.length;
+        const numCards = shuffledList.length;
+        const idealCardsPerUser = Math.floor(numCards / numUsers);
+        const remainingCards = numCards % numUsers;
+    
+        const distributedCards = {};
+    
+        let cardIndex = 0;
+    
+        // Distribute ideal number of cards to each user
+        for (let i = 0; i < numUsers; i++) {
+          const userId = room.users[i];
+          const numCardsToDistribute = idealCardsPerUser + (i < remainingCards ? 1 : 0);
+          distributedCards[userId] = shuffledList.slice(cardIndex, cardIndex + numCardsToDistribute);
+          cardIndex += numCardsToDistribute;
+        }
+       
+      }; 
 
-  const distributeCards = () => {
-    const numUsers = room.users.length;
-    const numCards = shuffledList.length;
-    const idealCardsPerUser = Math.floor(numCards / numUsers);
-    const remainingCards = numCards % numUsers;
+      return distributedCards();
 
-    const distributedCards = {};
-
-    let cardIndex = 0;
-
-    // Distribute ideal number of cards to each user
-    for (let i = 0; i < numUsers; i++) {
-      const userId = room.users[i];
-      const numCardsToDistribute = idealCardsPerUser + (i < remainingCards ? 1 : 0);
-      distributedCards[userId] = shuffledList.slice(cardIndex, cardIndex + numCardsToDistribute);
-      cardIndex += numCardsToDistribute;
-    }
-    return distributedCards;
-  }; 
-
-  
-
-  // Render user cards
-  const renderUserCards = () => {
-    const distributedCards = distributeCards();
-
-    return room.users.map(user => (
-      <div key={user} className="border p-4 mb-4">
-        <h3 className="text-lg font-semibold">{user.name}</h3>
-        <div className="grid grid-cols-4 gap-4 mt-2">
-          {distributedCards[user].map((card, cardIndex) => (
-            <img key={cardIndex} src={cardImages[card]} alt={card} className="w-12 h-auto" />
-          ))}
-        </div>
-      </div>
-    ));
-  };
-
-  return (
-    <div>
-      <h1 className="text-3xl font-bold mb-4">Room</h1>
-      <button onClick={shuffleList} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4">Shuffle Cards</button>
-      <div>
-        {/* Display user cards */}
-        {renderUserCards()}
-      </div>
-    </div>
-  );
+  }
+  catch(err){
+    console.log(err);
+    return null;
+  }
 }

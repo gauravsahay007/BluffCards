@@ -18,7 +18,10 @@ const createRoom = async(values) => {
 
     try{
         await setDoc(doc(roomCollection, small_id),room); 
-        return small_id
+        const docRef = doc(db, "Rooms", small_id);
+        const docSnap = await getDoc(docRef);
+       return docSnap.data();
+        
     }
     catch(err){
         console.error("Error creating a room");

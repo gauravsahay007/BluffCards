@@ -7,11 +7,13 @@ import "./App.css"
 import Dashboard from "./Pages/Dashboard.jsx";
 import JoinRoom from "./ChatRooms/joinRoom.jsx";
 import {useSelector } from "react-redux";
-
+import Room from "./ChatRooms/Room.jsx";
 
 const App = () => {
   const user = useSelector(state => state.user);
+  const room = useSelector(state => state.room);
   console.log(user);
+  console.log(room);
   return (
     <Router>
       <Routes>    
@@ -20,6 +22,7 @@ const App = () => {
         <Route path="/createRoom" element={<CreateRoom/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
         <Route path="/joinRoom" element={<JoinRoom/>}/>
+        <Route path="/room" element={<Room/>}/>
       </Routes>
     </Router>
   );

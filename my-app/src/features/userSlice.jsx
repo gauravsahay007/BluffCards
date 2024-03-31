@@ -7,6 +7,12 @@ const initialState = {
         cards: [],
         pic : "",
         uid : "",
+    },
+    room:{
+        name: "",
+        id: "",
+        users: [],
+        distributedCards: {}
     }
 };
 
@@ -27,11 +33,21 @@ export const userSlice = createSlice({
             state.user.email = "invalid@gmail.com";
             state.user.cards = [];
             state.user.uid = ""
+        },
+        updateRoom: (state, action) => {
+            const { users, name, distributedCards = {} } = action.payload;
+            state.room.users = users;
+            state.room.name = name;
+            state.room.distributedCards = distributedCards;
+        },
+        removeRoom: (state, action) => {
+            state.room.users = [];
+            state.room.name = "";
         }
     }
 });
 
-export const { updateUser, removeUser } = userSlice.actions;
+export const { updateUser, removeUser, updateRoom,removeRoom } = userSlice.actions;
 
 export default userSlice.reducer;
   
