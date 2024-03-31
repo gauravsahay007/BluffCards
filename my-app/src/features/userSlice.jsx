@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { shuffleCards } from "../Api/shuffleCards";
+
 
 const initialState = {
     user:{
@@ -12,7 +14,7 @@ const initialState = {
         name: "",
         id: "",
         users: [],
-        distributedCards: {}
+        distributedCards: {},
     }
 };
 
@@ -35,10 +37,26 @@ export const userSlice = createSlice({
             state.user.uid = ""
         },
         updateRoom: (state, action) => {
-            const { users, name, distributedCards = {} } = action.payload;
+            const { users, name} = action.payload;
+            const card = shuffleCards();
+            const numUsers = users.length;
+            const numCards = card.length;
+            const idealCardsPerUser = Math.floor(numCards / numUsers);
+            const remainingCards = numCards % numUsers;
+            var distributedCards = {};
+            let cardIndex = 0;
+            for (let i = 0; i < numUsers; i++) {
+              const userId = users[i];
+              const numCardsToDistribute = idealCardsPerUser + (i < remainingCards ? 1 : 0);
+              distributedCards[userId] = card.slice(cardIndex, cardIndex + numCardsToDistribute);
+              cardIndex += numCardsToDistribute;
+            }
+            distributedCards;
+        
             state.room.users = users;
             state.room.name = name;
             state.room.distributedCards = distributedCards;
+            
         },
         removeRoom: (state, action) => {
             state.room.users = [];
@@ -47,7 +65,7 @@ export const userSlice = createSlice({
     }
 });
 
-export const { updateUser, removeUser, updateRoom,removeRoom } = userSlice.actions;
+export const { updateUser, removeUser, updateRoom,removeRoom,updateRoomCards } = userSlice.actions;
 
 export default userSlice.reducer;
   
